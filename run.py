@@ -14,7 +14,20 @@ def index():
     if "username" in session:
         return redirect(url_for("qu_home"))
     
+    
     return render_template("index.html")
     
+    
+@app.route('/questions/home')
+def qu_home():
+    
+    if "score" not in session:
+        current_qu_num = 0
+    
+    if "username" not in session:
+        return redirect(url_for("index"))
+    
+    username = session["username"]
+    return render_template("qu_home.html", username = username, current_qu_num = current_qu_num)
 
 app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "8080")), debug=True)
