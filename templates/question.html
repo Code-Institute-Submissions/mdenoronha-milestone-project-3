@@ -1,20 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Homepage</title>
-</head>
-<body>
-    <h1>Welcome {{ username }}</h1>
-    
-    <p>{{ question.username }}</p>
-    <p>{{ question.score }}</p>
-    <p>{{ length }}</p>
+{% extends 'base-questions.html' %} {% block content %}
 
-    
-    <a href="/questions/{{ next_qu }}">Next Question</a>
-    
-</body>
-</html>
+        <h1 class="question-number">Question {{ qu_num }}</h1>
+
+        <p class="question-text">{{ question.question }}</p>
+
+    </div>
+    <div class="arrow"></div>
+    {% if next_qu == qu_num %}
+    <div class="question-answer-form">
+        <form method="POST">
+            <input class="entry-form" placeholder="ANSWER" type="textarea" name="answer" />
+            <input class="form-submit" type="submit" name="submit" />
+        </form>
+    </div>
+    {% endif %} {% if next_qu != qu_num %}
+    <div class="answer-pop-up-container">
+        <div class="answer-pop-up">
+            {% if request.form["answer"].upper() == correct_answer %}
+            <h2>That's Correct!</h2>
+            <p>The Correct Answer Is: {{ correct_answer }}</p>
+            {% else %}
+            <h2>Sorry, That's Wrong</h2>
+            <p>The Correct Answer Is: {{ correct_answer }}</p>
+            {% endif %}
+            <form action="{{ url_for('questions', qu_num = next_qu) }}">
+                <input class="form-submit" type="submit" value="NEXT QUESTION" />
+            </form>
+        </div>
+    </div>
+    </div>
+    {% endif %}
+
+ {% endblock %}

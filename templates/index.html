@@ -1,19 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Homepage</title>
-</head>
-<body>
-    <h1>Hello </h1>
-    
-    <form method="POST">
-        <input type="text" name="username"/>
-        <input type="number" name="score"/>
-        <input type="submit" value="Submit"/>
-    </form>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+
+            <svg height="140" width="500">
+                  <ellipse cx="40%" cy="5%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
+                  <ellipse cx="5%" cy="7%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
+                  <ellipse cx="4%" cy="60%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
+                  <ellipse cx="80%" cy="75%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
+                </svg>
+            <div class="question-mark">
+                <img src="{{ url_for('static', filename='imgs/question-mark.png') }}"></img>
+            </div>
+            <div class="homepage-intro-text">
+                <h1>Riddles Game</h1>
+                <p>This is some intro text about the Riddle Game for you to read</p>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form method="POST">
+                    <input class="entry-form" placeholder="USERNAME" type="text" name="username" />
+                    <input class="form-submit" type="submit" value="LET'S PLAY" />
+                </form>
+            </div>
+            
+{% endblock %}

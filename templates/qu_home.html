@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Homepage</title>
-</head>
-<body>
-    <h1>Welcome {{ username }}</h1>
-    
-    <a href="{{ url_for('questions', qu_num=0) }}">New Game</a>
-    
-    <a href="{{ url_for('questions', qu_num=current_qu_num) }}">Continue Game</a>
-    
-</body>
-</html>
+{% extends 'base.html' %} {% block content %}
+
+<h1 class="welcome-message">Welcome {{ username }}</h1>
+
+<div class="options">
+<!--Change to qu_new-->
+<a href="{{ url_for('qu_new')}}">
+<div class="new-game-option">
+<p>New Game</p>
+<i class="fas fa-plus"></i>
+</div>
+</a>
+<!--If leave on last -->
+{% if current_qu_num == 5 or 0 not in session["visited_check"] %}
+<a href="{{ url_for('end') }}"><div class="leaderboard-option">
+    <p>Leaderboard</p>
+    <i class="fas fa-medal" alt="leaderboard"></i>
+</div></a>
+{% else %}
+<a href="{{ url_for('questions', qu_num = current_qu_num) }}">
+<div class="continue-game-option">
+    <p>Continue Game</p>
+    <i class="fas fa-chevron-right"></i>
+</div>
+</a>
+{% endif %} 
+</div>
+
+{% endblock %}
