@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Homepage</title>
-</head>
-<body>
-    <h1>Hello world</h1>
-    
-    {% for person in leaderboard %}
-    <h4>{{ person.username }}</h4>
-    <p>{{ person.score }}<p>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base-questions.html' %} {% block content %}
+
+<h1 class="end-message leaderboard-message">Leaderboard</h1>
+
+</div>
+<div class="arrow"></div>
+
+<div class="leaderboard-container answer-pop-up-container">
+    <div class="answer-pop-up">
+        <table>
+            {% for user in top_users %}
+            <tr>
+                <th>{{ user.username }}</th>
+                <th>{{ user.score }} / 5</th>
+                <th>{{ user.total_time }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

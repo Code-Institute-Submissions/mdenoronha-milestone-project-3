@@ -12,24 +12,75 @@
 </head>
 
 <body>
-
+    {% if not session["username"] %}
+    <div class="shadow-overlay" id="login-container">
+        <div class="answer-pop-up-container login-modal">
+            <h2>Log In</h2>
+            {% with messages = get_flashed_messages(category_filter=["not-user"]) %} {% if messages %} {% for message in messages %}
+            <p id="login-error-message">{{ message }}</p>
+            {% endfor %} {% endif %} {% endwith %}
+            <form method="POST">
+                <input class="entry-form" placeholder="USERNAME" type="text" name="login" />
+                <input class="form-submit" type="submit" name="login" value="LOGIN" />
+            </form>
+        </div>
+    </div>
+    {% endif %}
     <header>
         <div class="header">
-            <a href="{{ url_for('index') }}"><p class="logo">RIDDLES</p></a>
+            <a href="{{ url_for('index') }}">
+                <p class="logo">RIDDLES</p>
+            </a>
             <i class="far fa-question-circle" alt="information"></i>
-            <i class="fas fa-medal" alt="leaderboard"></i>
+            <a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal" alt="leaderboard"></i></a>
+            {% if not session["username"] %}
+            <i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i>
+            {% else %}
             <i class="fas fa-sign-out-alt" alt="log out"></i>
+            {% endif %}
         </div>
     </header>
     <section>
+
         <div class="hero">
             <div class="rotate-background"></div>
-            
+
             {% block content %} {% endblock %}
 
         </div>
     </section>
 
+    <script>
+        var loginBox = document.getElementById("login-container");
+        var loginBoxOverlay = document.querySelector(".shadow-overlay");
+        var loginErrorMessage = document.getElementById("login-error-message")
+
+        function modalCheckOnLoad() {
+            if (loginErrorMessage.textContent == "No User By That Name Exists") {
+                loginBox.style.display = "block"
+            }
+        }
+
+
+        function showLogin() {
+            if (loginBox.style.display === "block") {
+                loginBox.style.display = "none";
+            }
+            else {
+                loginBox.style.display = "block";
+                loginErrorMessage.textContent = ""
+
+            }
+        }
+
+        loginBoxOverlay.addEventListener("click", function(e) {
+            if (e.target.className == "shadow-overlay") {
+                loginBox.style.display = "none";
+            }
+        })
+
+        modalCheckOnLoad()
+    </script>
 </body>
 
 </html>

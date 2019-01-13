@@ -13,7 +13,7 @@
             <div class="homepage-intro-text">
                 <h1>Riddles Game</h1>
                 <p>This is some intro text about the Riddle Game for you to read</p>
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(category_filter=["user"]) %}
                     {% if messages %}
                         {% for message in messages %}
                             <p>{{ message }}</p>
@@ -21,8 +21,8 @@
                     {% endif %}
                 {% endwith %}
                 <form method="POST">
-                    <input class="entry-form" placeholder="USERNAME" type="text" name="username" />
-                    <input class="form-submit" type="submit" value="LET'S PLAY" />
+                    <input class="entry-form" placeholder="USERNAME" type="text" name="register" />
+                    <input class="form-submit" type="submit" name="register" value="LET'S PLAY" />
                 </form>
             </div>
             
