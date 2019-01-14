@@ -23,11 +23,8 @@ def add_user_to_leaderboard(users):
         if (user["username"] == session["username"]):
             if user["score"] < session["score"]:
                 user["score"] = session["score"]
-            if user["total_time"] == None:
+            if user["total_time"] == None or user["total_time"] > session["total_time"]:
                 user["total_time"] = session["total_time"]
-            else:
-                if user["total_time"] > session["total_time"]:
-                    user["total_time"] = session["total_time"]
         else:
             if counter == len(users) - 1:
                 new_user = {}
@@ -120,7 +117,7 @@ def qu_home():
 @app.route('/questions/new-game')
 def qu_new():
     
-    session["current_qu_num"] = 0
+    session["current_qu_num"] = 1 
     session["score"] = 0
     session["answers"] = []
     session["total_time"] = 0
@@ -132,8 +129,6 @@ def qu_new():
     global answer_check
     answer_check = []
     return render_template("qu_new.html", username = session["username"])
-    
-    
     
 @app.route('/questions/<qu_num>', methods=["GET","POST"])
 def questions(qu_num):
