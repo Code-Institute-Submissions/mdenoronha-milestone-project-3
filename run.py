@@ -9,7 +9,7 @@ import ctypes
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "randomstring123")
 
-# Have all variables needed in a class?
+# Don't need this?
 user_answers = []
 
 def add_user_to_leaderboard(users):
@@ -21,10 +21,10 @@ def add_user_to_leaderboard(users):
         # Use Return here?
     for counter, user in enumerate(users):
         if (user["username"] == session["username"]):
-            if user["score"] < session["score"]:
+            if user["score"] <= session["score"]:
                 user["score"] = session["score"]
-            if user["total_time"] == None or user["total_time"] > session["total_time"]:
-                user["total_time"] = session["total_time"]
+                if user["total_time"] > session["total_time"] or user["total_time"] == None:
+                    user["total_time"] = session["total_time"]
         else:
             if counter == len(users) - 1:
                 new_user = {}
@@ -44,18 +44,19 @@ def add_user_to_leaderboard(users):
     
 def render_leaderboard(users):
     
+    users = [i for i in users if not i['score'] == None]
+    
     users = sorted(users, key=lambda x: (-x['score'], x['total_time']))
     top_users = users[:25]
-    
-    
-    for user in users:
+
+    for user in top_users:
         if user['total_time'] == None:
             user['total_time'] = 0
         user['total_time'] = turn_seconds_to_string(user["total_time"])
         user['username'] = user['username'].upper()
         
     return top_users
-    
+
 def turn_seconds_to_string(secs):
     # https://stackoverflow.com/questions/775049/how-do-i-convert-seconds-to-hours-minutes-and-seconds
     m, s = divmod(secs, 60)
@@ -63,6 +64,13 @@ def turn_seconds_to_string(secs):
     secs_string = "%02d mins %02d secs" % (m, s)
     
     return secs_string
+    
+def add_answer(current_random_question, submitted_answer):
+    temp_answers = {}
+    temp_answers["random_qu_num"] = current_random_question
+    temp_answers["answer"] = submitted_answer
+    
+    return temp_answers
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -104,7 +112,7 @@ def index():
 def qu_home():
 
     if "current_qu_num" not in session:
-        session["current_qu_num"] = 0
+        session["current_qu_num"] = None
     
     if "username" not in session:
         return redirect(url_for("index"))
@@ -122,17 +130,36 @@ def qu_new():
     session["answers"] = []
     session["total_time"] = 0
     session["random_questions"] = random.sample(range(10), 5)
-    session["timer"] = 0
     session["visited_check"] = []
     session["answer_check"] = []
-    session["answers"] = {}
-    global answer_check
-    answer_check = []
+    # session["answers"] = {}
+    session["answers"] = []
+    session["start_time"] = None
     return render_template("qu_new.html", username = session["username"])
     
 @app.route('/questions/<qu_num>', methods=["GET","POST"])
 def questions(qu_num):
     # If POST is repeated, can do this better?
+    
+    """
+    Test if url slug is a question number, if not redirect user to the questions 
+    homepage
+    """
+    try:
+        qu_num = int(qu_num)
+    except ValueError:
+        return redirect(url_for("index"))
+        
+    random_questions = session["random_questions"]
+    
+    try:
+        random_questions[int(qu_num) - 1]
+    except IndexError:
+        return redirect(url_for("index"))
+        
+    if "current_qu_num" not in session or "score" not in session:
+        return redirect(url_for("index"))
+        
     
     # Start at question 1 not question 0
     
@@ -143,29 +170,12 @@ def questions(qu_num):
     if int(qu_num) not in session["visited_check"]:
         session["visited_check"].append(int(qu_num))
         session["start_time"] = datetime.now()
-    
-    random_questions = session["random_questions"]
+
     
     with open("data/riddles.json", "r") as json_data:
         riddles = json.load(json_data)
         
-    """
-    Test if url slug is a question number, if not redirect user to the questions 
-    homepage
-    """
-    try:
-        qu_num = int(qu_num)
-    except ValueError:
-        return redirect(url_for("index"))
-        
-    try:
-        random_questions[int(qu_num)]
-    except IndexError:
-        return redirect(url_for("index"))
-        
-    if "current_qu_num" not in session or "score" not in session:
-        return redirect(url_for("index"))
-        
+    
     
     """
     Redirect user if they try to access a different question
@@ -173,45 +183,35 @@ def questions(qu_num):
     if int(qu_num) != int(session["current_qu_num"]):
         return redirect(url_for("index"))
 
-    current_random_question = random_questions[int(qu_num)]
-    
+    current_random_question = random_questions[int(qu_num) - 1]
+
     if request.method == "POST":
         
         session["current_qu_num"] += 1
         stop_time = datetime.now()
         start_time = session["start_time"]
         print(stop_time - start_time)
-
-        temp_answers = {}
-        temp_answers["qu_num"] = current_random_question
-        temp_answers["answer"] = request.form["answer"].upper()
+        
+        session["answers"].append(add_answer(current_random_question, request.form["answer"].upper()))
+        
         if session["total_time"] == None:
             session["total_time"] = 0
         session["total_time"] += (stop_time - start_time).total_seconds()
         
-        # Does this work?
-        # session["answers"].append(temp_answers)
-        
-        global user_answers
-        # Add check to see if qu_num has an answer, if so don't append
-        user_answers.append(temp_answers)
-        
-        
-        session["answers"] = user_answers
-        if request.form["answer"].upper() == riddles[current_random_question]["answer"].upper():
+        if request.form["answer"].upper() == riddles[current_random_question - 1]["answer"].upper():
             # Run JS function using https://stackoverflow.com/questions/20753969/edit-js-file-from-python
             if session["score"] == None:
                 session["score"] = 0
             session["score"] += 1
             
-    question = riddles[current_random_question]
+    question = riddles[current_random_question - 1]
     
-    if session["current_qu_num"] == 5:
+    if session["current_qu_num"] == 6:
         next_qu = "end"
     else:
         next_qu = session["current_qu_num"]
     
-    return render_template("question.html", qu_num = qu_num, question = question, next_qu = next_qu, correct_answer = riddles[current_random_question]["answer"].upper())
+    return render_template("question.html", qu_num = qu_num, question = question, next_qu = next_qu, correct_answer = riddles[current_random_question - 1]["answer"].upper())
     
 @app.route('/questions/end')
 def end():
@@ -219,7 +219,7 @@ def end():
     with open("data/riddles.json", "r") as json_data:
         riddles = json.load(json_data)
 
-    if session["current_qu_num"] != 5:
+    if session["current_qu_num"] != 6:
         return redirect(url_for("index"))
         
     users = json.load(open('data/users.json'))
@@ -230,11 +230,24 @@ def end():
     
     return render_template("questions-end.html", top_users = top_users, total_time_str = total_time_str)  
     
+class Tester:
+    
+    def __init__(self, qunum, answer):
+        self.qunum = qunum
+        self.answer = answer
+        
+        
 @app.route("/leaderboard")
 def leaderboard():
     
     users = json.load(open('data/users.json'))
     top_users = render_leaderboard(users)
+    
+    car = Tester("4","W")
+    session["car"] = json.dumps(car.__dict__)
+    # session["carqunum"] = car.qunum
+    print(session)
+
     
     return render_template("leaderboard.html", top_users = top_users)
     
