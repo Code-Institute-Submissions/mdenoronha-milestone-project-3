@@ -9,8 +9,25 @@ import ctypes
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET", "randomstring123")
 
-# Don't need this?
-user_answers = []
+
+class game_attributes:
+    
+    def __init__(self):
+        self.score = 0
+        self.answers = []
+        self.total_time = 0
+        self.random_questions = random.sample(range(10), 5)
+        self.visited_check = []
+        self.answer_check = []
+        self.answers = []
+        self.start_time = None
+        
+    @staticmethod
+    
+    def reset_game_attributes():
+        game_attributes_to_unpack = game_attributes().__dict__
+        for i in game_attributes_to_unpack:
+            session[i] = game_attributes_to_unpack[i]
 
 def add_user_to_leaderboard(users):
     
@@ -124,23 +141,15 @@ def qu_home():
     
 @app.route('/questions/new-game')
 def qu_new():
+
+    session["current_qu_num"] = 1
+    game_attributes.reset_game_attributes()
     
-    session["current_qu_num"] = 1 
-    session["score"] = 0
-    session["answers"] = []
-    session["total_time"] = 0
-    session["random_questions"] = random.sample(range(10), 5)
-    session["visited_check"] = []
-    session["answer_check"] = []
-    # session["answers"] = {}
-    session["answers"] = []
-    session["start_time"] = None
     return render_template("qu_new.html", username = session["username"])
     
 @app.route('/questions/<qu_num>', methods=["GET","POST"])
 def questions(qu_num):
     # If POST is repeated, can do this better?
-    
     """
     Test if url slug is a question number, if not redirect user to the questions 
     homepage
@@ -190,7 +199,6 @@ def questions(qu_num):
         session["current_qu_num"] += 1
         stop_time = datetime.now()
         start_time = session["start_time"]
-        print(stop_time - start_time)
         
         session["answers"].append(add_answer(current_random_question, request.form["answer"].upper()))
         
@@ -229,25 +237,26 @@ def end():
     total_time_str = turn_seconds_to_string(session["total_time"])
     
     return render_template("questions-end.html", top_users = top_users, total_time_str = total_time_str)  
+
+
+@app.route("/logout")
+def logout():
     
-class Tester:
+    try:
+        del session["username"]
+    except KeyError:
+        return redirect(url_for("index"))
+    session["current_qu_num"] = None
+    game_attributes.reset_game_attributes()
     
-    def __init__(self, qunum, answer):
-        self.qunum = qunum
-        self.answer = answer
-        
+    return redirect(url_for("index"))
+    
         
 @app.route("/leaderboard")
 def leaderboard():
     
     users = json.load(open('data/users.json'))
     top_users = render_leaderboard(users)
-    
-    car = Tester("4","W")
-    session["car"] = json.dumps(car.__dict__)
-    # session["carqunum"] = car.qunum
-    print(session)
-
     
     return render_template("leaderboard.html", top_users = top_users)
     
