@@ -28,6 +28,9 @@ class game_attributes:
         game_attributes_to_unpack = game_attributes().__dict__
         for i in game_attributes_to_unpack:
             session[i] = game_attributes_to_unpack[i]
+            
+        return
+
 
 def add_user_to_leaderboard(users):
     
@@ -99,7 +102,8 @@ def index():
         if 'login' in request.form:
             for counter, user in enumerate(users):
                 if user["username"].upper() == request.form["login"].upper():
-                        session["username"] = request.form["login"] 
+                        session["username"] = request.form["login"]
+                        break
                 else:
                     if counter == len(users) - 1:
                         flash("No User By That Name Exists", category='not-user')
@@ -127,7 +131,7 @@ def index():
     
 @app.route('/questions/home')
 def qu_home():
-
+    print(session)
     if "current_qu_num" not in session:
         session["current_qu_num"] = None
     
@@ -248,10 +252,9 @@ def logout():
         return redirect(url_for("index"))
     session["current_qu_num"] = None
     game_attributes.reset_game_attributes()
-    
     return redirect(url_for("index"))
     
-        
+           
 @app.route("/leaderboard")
 def leaderboard():
     
