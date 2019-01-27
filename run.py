@@ -39,6 +39,7 @@ def add_user_to_leaderboard(users):
         users = [users]
         # Add user
         # Use Return here?
+        # Fix issue with double entries
     for counter, user in enumerate(users):
         if (user["username"] == session["username"]):
             if user["score"] <= session["score"]:
@@ -111,7 +112,7 @@ def index():
             for counter, user in enumerate(users):
                 if user["username"].upper() == request.form["register"].upper():
                     # https://www.youtube.com/watch?v=DFCKWhoiHZ4
-                    message = Markup("That username is taken, please try another.<br><strong>Already a Player? <span class=\"linked-text\" onclick=\"showLogin()\">Log in</span></strong>")
+                    message = Markup("That username is taken, please try another.<br><strong>Is This You? <span class=\"linked-text\" onclick=\"showLogin()\">Log in</span></strong>")
                     flash(message, category='user')
                     return render_template("index.html")
                 else:

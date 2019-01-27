@@ -12,15 +12,38 @@
 </head>
 
 <body>
+    <div class="shadow-overlay pop-up-container" id="instructions-box">
+        <div class="answer-pop-up-container instructions-modal">
+            <h2>Instructions</h2><i class="fas fa-times close-button"></i>
+            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
+            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
+            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
+            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
+        </div>
+    </div>
+    
+    <div class="shadow-overlay pop-up-container" id="logout-container">
+        <div class="answer-pop-up-container logout-modal">
+            <h2>Logging Out</h2><i class="fas fa-times close-button"></i>
+            <p class="warning-text">Warning: Logging out will reset all progress for any incomplete games you are currently playing.</p>
+            <p>Are you sure you want to log out?</p>
+
+            <form action="/logout">
+                <input class="form-submit" type="submit" name="logout" value="LOGOUT" />
+            </form>
+            <p class="cancel-link" onclick="showLogout()">Cancel</p>
+        </div>
+    </div>
+
+
     {% if not session["username"] %}
-    <div class="shadow-overlay" id="login-container">
+    <div class="shadow-overlay pop-up-container" id="login-container">
         <div class="answer-pop-up-container login-modal">
-            <h2>Log In</h2>
-            {% with messages = get_flashed_messages(category_filter=["not-user"]) %} {% if messages %} {% for message in messages %}
+            <h2>Log In</h2><i class="fas fa-times close-button"></i> {% with messages = get_flashed_messages(category_filter=["not-user"]) %} {% if messages %} {% for message in messages %}
             <p id="login-error-message">{{ message }}</p>
             {% endfor %} {% endif %} {% endwith %}
             <form method="POST">
-                <input class="entry-form" placeholder="USERNAME" type="text" name="login" />
+                <input class="entry-form" placeholder="USERNAME" type="text" name="login" required/>
                 <input class="form-submit" type="submit" name="login" value="LOGIN" />
             </form>
         </div>
@@ -31,13 +54,11 @@
             <a href="{{ url_for('index') }}">
                 <p class="logo">RIDDLES</p>
             </a>
-            <i class="far fa-question-circle" alt="information"></i>
-            <a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal" alt="leaderboard"></i></a>
+            <i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i>
+            <a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal" alt="leaderboard"></i></a> 
             {% if not session["username"] %}
-            <i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i>
-            {% else %}
-            <i class="fas fa-sign-out-alt" alt="log out"></i>
-            {% endif %}
+            <i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i> {% else %}
+            <i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i> {% endif %}
         </div>
     </header>
     <section>
@@ -52,15 +73,34 @@
 
     <script>
         var loginBox = document.getElementById("login-container");
-        var loginBoxOverlay = document.querySelector(".shadow-overlay");
         var loginErrorMessage = document.getElementById("login-error-message")
+        var logoutBox = document.getElementById("logout-container")
+        var allPopUps = document.getElementsByClassName("pop-up-container")
+        var instructionsBox = document.getElementById("instructions-box")
 
         function modalCheckOnLoad() {
             if (loginErrorMessage.textContent == "No User By That Name Exists") {
                 loginBox.style.display = "block"
             }
         }
+        
+        function showInstructions() {
+            if (instructionsBox.style.display === "block") {
+                instructionsBox.style.display = "none";
+            }
+            else {
+                instructionsBox.style.display = "block";
+            }
+        }
 
+        function showLogout() {
+            if (logoutBox.style.display === "block") {
+                logoutBox.style.display = "none";
+            }
+            else {
+                logoutBox.style.display = "block";
+            }
+        }
 
         function showLogin() {
             if (loginBox.style.display === "block") {
@@ -73,11 +113,17 @@
             }
         }
 
-        loginBoxOverlay.addEventListener("click", function(e) {
-            if (e.target.className == "shadow-overlay") {
-                loginBox.style.display = "none";
-            }
-        })
+        for (i = 0; i < allPopUps.length; i++) {
+            console.log(allPopUps[i])
+            console.log(i)
+            allPopUps[i].addEventListener("click", function(e) {
+                if (e.target.classList.contains("shadow-overlay") || e.target.classList.contains("close-button")) {
+                    for (i = 0; i < allPopUps.length; i++) {
+                        allPopUps[i].style.display = "none";
+                    }
+                }
+            })
+        }
 
         modalCheckOnLoad()
     </script>

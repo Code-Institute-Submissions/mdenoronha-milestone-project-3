@@ -8,11 +8,11 @@
 <div class="leaderboard-container answer-pop-up-container">
     <div class="answer-pop-up">
         <table>
-            {% for user in top_users %}
+            {% for top_user in top_users %}
             <tr>
-                <th>{{ user.username }}</th>
-                <th>{{ user.score }} / 5</th>
-                <th>{{ user.total_time }}</th>
+                <th>{{ top_user.username }}</th>
+                <th>{{ top_user.score }} / 5</th>
+                <th>{{ top_user.total_time }}</th>
             </tr>
             {% endfor %}
         </table>
