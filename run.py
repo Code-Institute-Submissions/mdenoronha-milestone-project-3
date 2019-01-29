@@ -57,7 +57,7 @@ def add_user_to_leaderboard(users):
     # write list to file
     with open('data/users.json', 'w+') as overwrite:
         json.dump(users, overwrite)
-    
+
     # Better way to do this than loading it again? 
     users = json.load(open('data/users.json'))
     
@@ -82,7 +82,7 @@ def turn_seconds_to_string(secs):
     # https://stackoverflow.com/questions/775049/how-do-i-convert-seconds-to-hours-minutes-and-seconds
     m, s = divmod(secs, 60)
     h, m = divmod(m, 60)
-    secs_string = "%02d mins %02d secs" % (m, s)
+    secs_string = "%02dm %02ds" % (m, s)
     
     return secs_string
     
@@ -117,7 +117,7 @@ def index():
                     return render_template("index.html")
                 else:
                     if counter == len(users) - 1:
-                        session["username"] = request.form["register"] 
+                        session["username"] = request.form["register"].upper() 
                         session["score"] = None
                         session["total_time"] = None
                         users = json.load(open('data/users.json'))
