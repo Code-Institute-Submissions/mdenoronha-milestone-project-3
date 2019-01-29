@@ -50,16 +50,28 @@
     </div>
     {% endif %}
     <header>
+        <nav>
         <div class="header">
             <a href="{{ url_for('index') }}">
                 <p class="logo">RIDDLES</p>
             </a>
-            <i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i>
-            <a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal" alt="leaderboard"></i></a> 
-            {% if not session["username"] %}
-            <i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i> {% else %}
-            <i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i> {% endif %}
+            <ul class="navigation-options">
+                <li><i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i></li>
+                <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal leaderboard" alt="leaderboard"></i></a> </li>
+                {% if not request.path=="/" %}
+                {% if not session["username"] %}
+                <li><a href="/"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
+                {% else %}
+                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>
+                {% endif %}
+                {% else %}
+                {% if not session["username"] %}
+                <li><i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i></li>{% else %}
+                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>{% endif %}{% endif %}
+                
+            </ul>
         </div>
+        </nav>
     </header>
     <section>
 
