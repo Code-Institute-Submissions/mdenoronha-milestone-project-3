@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, redirect, render_template, request, session, url_for, flash, Markup
+from flask import Flask, redirect, render_template, request, session, url_for, flash
 from operator import itemgetter
 import random
 from datetime import datetime
@@ -105,8 +105,13 @@ def index():
                 if user["username"].upper() == request.form["register"].upper():
                     # https://www.youtube.com/watch?v=DFCKWhoiHZ4
                     # Change this into a list of strings, and input into html (remove HTML from message)
-                    message = Markup("That username is taken, please try another.<br><strong>Is This You? <span class=\"linked-text\" onclick=\"showLogin()\">Log in</span></strong>")
-                    flash(message, category='user')
+                    messages = ["That username is taken, please try another.",
+                                "Is This You? ",
+                                "Log in"]
+                                
+                    for message in messages:
+                        flash(message, category='user')
+
                     return render_template("index.html")
                 else:
                     if counter == len(users) - 1:
@@ -119,8 +124,8 @@ def index():
     if "username" in session:
         return redirect(url_for("qu_home"))
     
-    
-    return render_template("index.html")
+    title = "Riddles Game - Join Up"
+    return render_template("index.html", title = title)
     
 @app.route('/questions/home')
 def qu_home():
@@ -132,8 +137,10 @@ def qu_home():
         
     with open("data/riddles.json", "r") as json_data:
         riddles = json.load(json_data)
+        
     
-    return render_template("qu_home.html", username = session["username"], current_qu_num = session["current_qu_num"])
+    title = "Riddles Game - Questions Home"
+    return render_template("qu_home.html", username = session["username"], current_qu_num = session["current_qu_num"], title = title)
     
 @app.route('/questions/new-game')
 def qu_new():
@@ -141,7 +148,9 @@ def qu_new():
     session["current_qu_num"] = 1
     reset_game_attributes()
     
-    return render_template("qu_new.html", username = session["username"])
+    title = "Riddles Game - New Game"
+    
+    return render_template("qu_new.html", username = session["username"], title = title)
     
 @app.route('/questions/<qu_num>', methods=["GET","POST"])
 def questions(qu_num):
@@ -243,9 +252,11 @@ def questions(qu_num):
         next_qu = "end"
     else:
         next_qu = session["current_qu_num"]
+        
     
+    title = "Riddles Game - Question %d" % (qu_num)
     
-    return render_template("question.html", qu_num = qu_num, question = question, next_qu = next_qu, correct = correct, correct_answer = correct_answer)
+    return render_template("question.html", qu_num = qu_num, question = question, next_qu = next_qu, correct = correct, correct_answer = correct_answer, title = title)
     
 @app.route('/questions/end')
 def end():
@@ -259,7 +270,9 @@ def end():
             
     total_time_str = turn_seconds_to_string(session["total_time"])
     
-    return render_template("questions-end.html", top_users = top_users, total_time_str = total_time_str)  
+    title = "Riddles Game - End"
+    
+    return render_template("questions-end.html", top_users = top_users, total_time_str = total_time_str, title = title)  
 
 
 @app.route("/logout")
@@ -281,7 +294,9 @@ def leaderboard():
     users = json.load(open('data/users.json'))
     top_users = render_leaderboard(users)
     
-    return render_template("leaderboard.html", top_users = top_users)
+    title = "Riddles Game - Leaderboard"
+    
+    return render_template("leaderboard.html", top_users = top_users, title = title)
     
 # Make debug false
 # If name for test_riddle
