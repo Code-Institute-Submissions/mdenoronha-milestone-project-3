@@ -1,10 +1,13 @@
 {% extends 'base.html' %} {% block content %}
+
+<!--New Game Intro-->
 <h1 class="welcome-message">It's a New Game {{ username }}</h1>
 <div class="intro-text">
     <p>Nullam pellentesque pretium leo eget feugiat. Cras dictum nunc pharetra magna viverra ornare. Sed id blandit mauris. Maecenas et ex tellus. Aliquam erat volutpat. Mauris feugiat dignissim sodales. Proin at massa ipsum. Nunc vitae finibus diam.
         <br><br> Praesent ac ex eget velit mattis efficitur. Sed pulvinar metus non diam porta lobortis. In ut orci magna. Integer aliquam dolor ac odio placerat fermentum. Nunc in magna convallis, mollis nunc vitae, tempor erat. Proin ac ornare justo.
         Fusce quis ante vitae libero rhoncus mollis ac egestas diam.</p>
 </div>
+<!--Start Game Button-->
 <form action="{{ url_for('questions', qu_num = session['current_qu_num']) }}">
     <input class="lets-play-button"  type="submit" value="START GAME" />
 </form>

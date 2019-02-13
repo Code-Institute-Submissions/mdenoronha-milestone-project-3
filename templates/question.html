@@ -1,19 +1,24 @@
 {% extends 'base-questions.html' %} {% block content %}
-
+    <!--Riddle-->
         <h1 class="question-number">Question {{ qu_num }}</h1>
 
         <p class="question-text">{{ question.question }}</p>
 
     </div>
     <div class="arrow"></div>
+    
+    
     {% if next_qu == qu_num %}
+    <!--Answer Form-->
     <div class="question-answer-form">
         <form method="POST">
-            <input class="entry-form" placeholder="ANSWER" type="textarea" name="answer" />
+            <input class="entry-form" placeholder="ANSWER" type="textarea" name="answer" required />
             <input class="form-submit" type="submit" name="submit" />
         </form>
     </div>
+    
     {% endif %} {% if next_qu != qu_num %}
+    <!--Correct Answer Modal-->
     <div class="answer-pop-up-container">
         <div class="answer-pop-up">
             {% if correct: %}

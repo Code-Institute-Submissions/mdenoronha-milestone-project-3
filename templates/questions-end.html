@@ -1,20 +1,28 @@
 {% extends 'base-questions.html' %} {% block content %}
 
+<!--User Score and Total Time-->
 <h1 class="question-number end-message">You Scored {{ session["score"] }} / 5</h1>
 <h2 class>In {{ total_time_str }}</h2>
 
 </div>
 <div class="arrow"></div>
 
+<!--Leaderboard-->
 <div class="leaderboard-container answer-pop-up-container">
     <div class="answer-pop-up">
         <table>
-            <h2>Leaderboard</h2>
-            {% for user in top_users %}
             <tr>
-                <th>{{ user.username }}</th>
-                <th>{{ user.score }} / 5</th>
-                <th>{{ user.total_time }}</th>
+                <h2>Leaderboard</h2>
+                <td>Username</td>
+                <td>Score</td>
+                <td>Total Time</td>
+            </tr>
+            {% for top_user in top_users %}
+            
+            <tr>
+                <td>{{ top_user.username }}</td>
+                <td>{{ top_user.score }} / 5</td>
+                <td>{{ top_user.total_time }}</td>
             </tr>
             {% endfor %}
         </table>

@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <!--Instructions Modal-->
     <div class="shadow-overlay pop-up-container" id="instructions-box">
         <div class="answer-pop-up-container instructions-modal">
             <h2>Instructions</h2><i class="fas fa-times close-button"></i>
@@ -24,7 +25,8 @@
             </p>
         </div>
     </div>
-
+    
+    <!--Log Out Modal-->
     <div class="shadow-overlay pop-up-container" id="logout-container">
         <div class="answer-pop-up-container logout-modal">
             <h2>Logging Out</h2><i class="fas fa-times close-button"></i>
@@ -38,7 +40,7 @@
         </div>
     </div>
 
-
+    <!--Login Modal-->
     {% if not session["username"] %}
     <div class="shadow-overlay pop-up-container" id="login-container">
         <div class="answer-pop-up-container login-modal">
@@ -62,6 +64,7 @@
                     <li><i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i></li>
                     <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal leaderboard" alt="leaderboard"></i></a> </li>
                     {% if not request.path=="/" %} {% if not session["username"] %}
+                    <!--Direct user to homepage and open login modal-->
                     <li><a href="/?modal=login"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
                     {% else %}
                     <li><i class="fas fa-door-open log-out" onclick="showLogout()" alt="log out"></i></li>
@@ -90,19 +93,16 @@
         var allPopUps = document.getElementsByClassName("pop-up-container")
         var instructionsBox = document.getElementById("instructions-box")
         var urlParams = new URLSearchParams(window.location.search);
-        if (urlParams) {
-            console.log(urlParams)
-        }
-        else {
-            console.log("False")
-        }
-
+        
+        // If flash error message is displayed after form entry, display modal that contains 
+        // the text
         function modalCheckOnLoad() {
             if (loginErrorMessage.textContent == "No User By That Name Exists") {
                 loginBox.style.display = "block"
             }
         }
-
+        
+        // Show/hide instructions modal
         function showInstructions() {
             if (instructionsBox.style.display === "block") {
                 instructionsBox.style.display = "none";
@@ -112,6 +112,7 @@
             }
         }
 
+        // Show/hide logout modal
         function showLogout() {
             if (logoutBox.style.display === "block") {
                 logoutBox.style.display = "none";
@@ -121,6 +122,7 @@
             }
         }
 
+        // Show/hide Login modal and remove error message
         function showLogin() {
             if (loginBox.style.display === "block") {
                 loginBox.style.display = "none";
@@ -131,6 +133,7 @@
             }
         }
 
+        // Close modal by clicking x or outside modal area
         for (i = 0; i < allPopUps.length; i++) {
             allPopUps[i].addEventListener("click", function(e) {
                 if (e.target.classList.contains("shadow-overlay") || e.target.classList.contains("close-button")) {
@@ -138,13 +141,17 @@
                         allPopUps[i].style.display = "none";
                     }
                 }
+                // URL parameters are used to open login modal if user clicked login from page other than
+                // home. When closing pop-up, URL parameters are removed.
+                // Assistance provided by
                 // http://atodorov.org/blog/2013/01/28/remove-query-string-with-javascript-and-html5/
                 var clean_uri = location.protocol + "//" + location.host + location.pathname;
                 window.history.replaceState({}, document.title, clean_uri);
             })
         }
 
-
+        // If user clicked login from page other than home, URL parameters are updated
+        // and login modal is displayed
         if (urlParams.get('modal') == "login") {
             showLogin()
         }

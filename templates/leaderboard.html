@@ -1,18 +1,26 @@
 {% extends 'base-questions.html' %} {% block content %}
-
+<!--Score and Total Time Message-->
 <h1 class="end-message leaderboard-message">Leaderboard</h1>
 
 </div>
-<div class="arrow"></div>
+    </div>
+    <div class="arrow"></div>
 
+<!--Leaderboard-->
 <div class="leaderboard-container answer-pop-up-container">
     <div class="answer-pop-up">
         <table>
-            {% for top_user in top_users %}
             <tr>
-                <th>{{ top_user.username }}</th>
-                <th>{{ top_user.score }} / 5</th>
-                <th>{{ top_user.total_time }}</th>
+                <td>Username</td>
+                <td>Score</td>
+                <td>Total Time</td>
+            </tr>
+            {% for top_user in top_users %}
+
+            <tr>
+                <td>{{ top_user.username }}</td>
+                <td>{{ top_user.score }} / 5</td>
+                <td>{{ top_user.total_time }}</td>
             </tr>
             {% endfor %}
         </table>

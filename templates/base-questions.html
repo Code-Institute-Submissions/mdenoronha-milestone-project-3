@@ -11,17 +11,24 @@
     <title>{{ title }}</title>
 </head>
 
+<!--Instructions Modal-->
 <body>
     <div class="shadow-overlay pop-up-container" id="instructions-box">
         <div class="answer-pop-up-container instructions-modal">
             <h2>Instructions</h2><i class="fas fa-times close-button"></i>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-        </div>
+            <p>
+            <strong>Welcome to the Riddles Game</strong>
+            <br><br>
+            The Riddles Game tests your skills by putting you up against 5 random riddles. Be sure to answer correctly as you get one attempt to get the riddle right. But don’t take too long, as soon as the question is displayed a timer starts, timing how long it takes for you to figure out the answer!
+            <br><br>
+            Can you make the leaderboard? Contestants with the best score and best game time will make the prestigious <a href="/leaderboard">Riddles Game leaderboard</a>.
+            <br><br>
+            Have you got what it takes? 
+            </p>
+            </div>
     </div>
     
+    <!--Log Out Modal-->
     <div class="shadow-overlay pop-up-container" id="logout-container">
         <div class="answer-pop-up-container logout-modal">
             <h2>Logging Out</h2><i class="fas fa-times close-button"></i>
@@ -35,7 +42,7 @@
         </div>
     </div>
 
-
+    <!--Login Modal-->
     {% if not session["username"] %}
     <div class="shadow-overlay pop-up-container" id="login-container">
         <div class="answer-pop-up-container login-modal">
@@ -49,6 +56,8 @@
         </div>
     </div>
     {% endif %}
+    
+    <!--Header and Navigation-->
     <header>
         <nav>
         <div class="header">
@@ -60,14 +69,14 @@
                 <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal leaderboard" alt="leaderboard"></i></a> </li>
                 {% if not request.path=="/" %}
                 {% if not session["username"] %}
-                <li><a href="/"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
+                <li><a href="/?modal=login"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
                 {% else %}
-                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>
+                <li><i class="fas fa-door-open log-out" onclick="showLogout()" alt="log out"></i></li>
                 {% endif %}
                 {% else %}
                 {% if not session["username"] %}
                 <li><i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i></li>{% else %}
-                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>{% endif %}{% endif %}
+                <li><i class="fas fa-door-open log-out" onclick="showLogout()" alt="log out"></i></li>{% endif %}{% endif %}
             </ul>
         </div>
         </nav>
@@ -83,13 +92,16 @@
         var logoutBox = document.getElementById("logout-container")
         var allPopUps = document.getElementsByClassName("pop-up-container")
         var instructionsBox = document.getElementById("instructions-box")
-
+        
+        // If flash error message is displayed after form entry, display modal that contains 
+        // the text
         function modalCheckOnLoad() {
             if (loginErrorMessage.textContent == "No User By That Name Exists") {
                 loginBox.style.display = "block"
             }
         }
         
+        // Show/hide instructions modal
         function showInstructions() {
             if (instructionsBox.style.display === "block") {
                 instructionsBox.style.display = "none";
@@ -99,6 +111,7 @@
             }
         }
 
+        // Show/hide logout modal
         function showLogout() {
             if (logoutBox.style.display === "block") {
                 logoutBox.style.display = "none";
@@ -107,7 +120,8 @@
                 logoutBox.style.display = "block";
             }
         }
-
+        
+        // Show/hide Login modal and remove error message
         function showLogin() {
             if (loginBox.style.display === "block") {
                 loginBox.style.display = "none";
@@ -118,7 +132,8 @@
 
             }
         }
-
+        
+        // Close modal on clicking x or outside modal area
         for (i = 0; i < allPopUps.length; i++) {
             console.log(allPopUps[i])
             console.log(i)
@@ -130,7 +145,7 @@
                 }
             })
         }
-
+        
         modalCheckOnLoad()
     </script>
     

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+            <!--Homepage Background-->
             <svg height="140" width="500">
                   <ellipse cx="40%" cy="5%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
                   <ellipse cx="5%" cy="7%" rx="24" ry="14" style="fill:#0f4672"></ellipse>
@@ -10,14 +10,18 @@
             <div class="question-mark">
                 <img src="{{ url_for('static', filename='imgs/question-mark.png') }}"></img>
             </div>
+            
+            <!--Homepage Intro Content-->
             <div class="homepage-intro-text">
                 <h1>Riddles Game</h1>
-                <p>This is some intro text about the Riddle Game for you to read</p>
+                <p>Come Test Your Skills. Join the Challenge Today.</p>
                 {% with messages = get_flashed_messages(category_filter=["user"]) %}
                     {% if messages %}
                         <p>{{ messages[0] }}<br><strong>{{ messages[1] }}<span class="linked-text" onclick="showLogin()">{{ messages[2] }}</span></strong></p>
                     {% endif %}
                 {% endwith %}
+                
+                <!--Register Form-->
                 <form method="POST">
                     <input class="entry-form" maxlength="15" placeholder="USERNAME" type="text" name="register" required/>
                     <input class="form-submit" type="submit" name="register" value="LET'S PLAY" />
