@@ -1,5 +1,4 @@
-/*Add comments*/
-
+/*Sitewide*/
 body {
     font-family: 'Dosis', sans-serif;
     margin: 0px;
@@ -9,6 +8,14 @@ body {
 a {
     color: inherit;
 }
+
+.linked-text {
+    text-decoration: underline;
+    color: #0000EE;
+    cursor: pointer;
+}
+
+/*Header and Navigation*/
 
 .header {
     height: 60px;
@@ -42,6 +49,22 @@ a {
 .header i {
     font-size: 1.2em;
 }
+
+.log-in,
+.log-out,
+.fa-question-circle,
+.leaderboard {
+    cursor: pointer
+}
+
+.log-in:hover,
+.log-out:hover,
+.fa-question-circle:hover,
+.leaderboard:hover {
+    color: #f7b552
+}
+
+/*Homepage Background*/
 
 .hero {
     position: relative;
@@ -88,11 +111,7 @@ a {
     width: 100%;
 }
 
-.linked-text {
-    text-decoration: underline;
-    color: #0000EE;
-    cursor: pointer;
-}
+/*Homepage Content*/
 
 .homepage-intro-text {
     width: 49%;
@@ -105,38 +124,6 @@ a {
 .homepage-intro-text h1 {
     font-size: 3.5em;
     margin-bottom: 10px;
-}
-
-.entry-form {
-    text-transform: uppercase;
-    display: block;
-    width: 70%;
-    height: 50px;
-    border: none;
-    outline: none;
-    border-radius: 0.5rem;
-    font-size: 2em;
-    color: white;
-    background-color: #1f4770;
-    padding-left: 5%;
-}
-
-.form-submit,
-.lets-play-button {
-    font-family: 'Dosis', sans-serif;
-    letter-spacing: 7px;
-    display: block;
-    height: 55px;
-    border: none;
-    outline: none;
-    border-radius: 0.5rem;
-    font-size: 2em;
-    color: black;
-    background-color: #ffe8c5;
-    padding-left: 20px;
-    margin-top: 10px;
-    box-shadow: -7px 8px 1px 0px rgba(87, 89, 89, 1);
-    width: 75%;
 }
 
 @media (max-width: 768px) {
@@ -171,26 +158,38 @@ a {
     }
 }
 
-.shadow-overlay {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 2;
+/*Register, Login Forms, Pop ups and Buttons*/
+
+.entry-form {
+    text-transform: uppercase;
+    display: block;
+    width: 70%;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    font-size: 2em;
+    color: white;
+    background-color: #1f4770;
+    padding-left: 5%;
 }
 
-.log-in,
-.log-out,
-.fa-question-circle,
-.leaderboard {
-    cursor: pointer
-}
-
-.log-in:hover,
-.log-out:hover,
-.fa-question-circle:hover,
-.leaderboard:hover {
-    color: #f7b552
+.form-submit,
+.lets-play-button {
+    font-family: 'Dosis', sans-serif;
+    letter-spacing: 7px;
+    display: block;
+    height: 55px;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    font-size: 2em;
+    color: black;
+    background-color: #ffe8c5;
+    padding-left: 20px;
+    margin-top: 10px;
+    box-shadow: -7px 8px 1px 0px rgba(87, 89, 89, 1);
+    width: 75%;
 }
 
 .login-modal,
@@ -206,10 +205,22 @@ a {
     z-index: 3;
 }
 
+.shadow-overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+}
+
 input[name="login"] {
     margin: 20px auto;
     background-color: #ffe8c1;
     color: black;
+}
+
+.login-input {
+    background-color: #ffffff !important;
 }
 
 .close-button {
@@ -249,7 +260,7 @@ input[name="login"] {
 }
 
 
-/*Qu_home*/
+/*Questions home*/
 
 .welcome-message {
     margin-left: 5%;
@@ -293,11 +304,11 @@ input[name="login"] {
 }
 
 .leaderboard-option {
-    background-color: #4a3e2d;
+    background-color: #f39100;
 }
 
 .continue-game-option {
-    background-color: #85683e;
+    background-color: #676767;
 }
 
 .new-game-option p,
@@ -323,7 +334,7 @@ input[name="login"] {
 }
 
 
-/*QU new*/
+/*Questions New Game*/
 
 .intro-text {
     width: 85%;
@@ -379,9 +390,20 @@ input[name="login"] {
 }
 
 .question-answer-form .form-submit {
-    width: 52%;
+    width: 55%;
     margin: 0 auto;
     padding: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .question-answer-form .entry-form {
+        width: 70%;
+    }
+    
+    .question-answer-form .form-submit {
+        width: 75%;
+    }
 }
 
 .answer-pop-up-container {
@@ -423,7 +445,7 @@ input[name="login"] {
     height: 40px
 }
 
-/*end*/
+/*Questions End*/
 
 .end-message {
     padding: 20px 0 0 0;
@@ -449,8 +471,9 @@ input[name="login"] {
     width: 100%;
 }
 
-.leaderboard-container th {
+.leaderboard-container td {
     width: 33%;
+    text-align: center;
 }
 
 .leaderboard-container tr:first-of-type {
@@ -458,17 +481,21 @@ input[name="login"] {
 }
 
 .leaderboard-container tr:nth-of-type(2) {
-    font-size: 1.5em;
+    font-size: 1.9em;
 }
 
 .leaderboard-container tr:nth-of-type(3) {
     font-size: 1.2em;
 }
 
+.leaderboard-container tr:nth-of-type(4) {
+    font-size: 1.2em;
+}
+
 
 @media (max-width: 768px) {
     .leaderboard-container tr {
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
 
     .leaderboard-container tr:first-of-type {
@@ -476,12 +503,16 @@ input[name="login"] {
     }
 
     .leaderboard-container tr:nth-of-type(2) {
-        font-size: 1.1em;
+        font-size: 1.2em;
     }
 
     .leaderboard-container tr:nth-of-type(3) {
         font-size: 1em;
     }
+    
+    .leaderboard-container tr:nth-of-type(4) {
+    font-size: 0.9em;
+}
 
 }
 
