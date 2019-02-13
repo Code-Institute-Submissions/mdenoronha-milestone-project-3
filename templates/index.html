@@ -15,9 +15,7 @@
                 <p>This is some intro text about the Riddle Game for you to read</p>
                 {% with messages = get_flashed_messages(category_filter=["user"]) %}
                     {% if messages %}
-                        {% for message in messages %}
-                            <p>{{ message }}</p>
-                        {% endfor %}
+                        <p>{{ messages[0] }}<br><strong>{{ messages[1] }}<span class="linked-text" onclick="showLogin()">{{ messages[2] }}</span></strong></p>
                     {% endif %}
                 {% endwith %}
                 <form method="POST">
