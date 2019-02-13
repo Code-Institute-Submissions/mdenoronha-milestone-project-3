@@ -15,13 +15,16 @@
     <div class="shadow-overlay pop-up-container" id="instructions-box">
         <div class="answer-pop-up-container instructions-modal">
             <h2>Instructions</h2><i class="fas fa-times close-button"></i>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
-            <p>This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions. This is some instructions.</p>
+            <p>
+                <strong>Welcome to the Riddles Game</strong>
+                <br><br> The Riddles Game tests your skills by putting you up against 5 random riddles. Be sure to answer correctly as you get one attempt to get the riddle right. But don’t take too long, as soon as the question is displayed a timer starts,
+                timing how long it takes for you to figure out the answer!
+                <br><br> Can you make the leaderboard? Contestants with the best score and best game time will make the prestigious <a href="/leaderboard">Riddles Game leaderboard</a>.
+                <br><br> Have you got what it takes?
+            </p>
         </div>
     </div>
-    
+
     <div class="shadow-overlay pop-up-container" id="logout-container">
         <div class="answer-pop-up-container logout-modal">
             <h2>Logging Out</h2><i class="fas fa-times close-button"></i>
@@ -51,26 +54,23 @@
     {% endif %}
     <header>
         <nav>
-        <div class="header">
-            <a href="{{ url_for('index') }}">
-                <p class="logo">RIDDLES</p>
-            </a>
-            <ul class="navigation-options">
-                <li><i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i></li>
-                <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal leaderboard" alt="leaderboard"></i></a> </li>
-                {% if not request.path=="/" %}
-                {% if not session["username"] %}
-                <li><a href="/"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
-                {% else %}
-                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>
-                {% endif %}
-                {% else %}
-                {% if not session["username"] %}
-                <li><i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i></li>{% else %}
-                <li><i class="fas fa-sign-out-alt log-out" onclick="showLogout()" alt="log out"></i></li>{% endif %}{% endif %}
-                
-            </ul>
-        </div>
+            <div class="header">
+                <a href="{{ url_for('index') }}">
+                    <p class="logo">RIDDLES</p>
+                </a>
+                <ul class="navigation-options">
+                    <li><i class="far fa-question-circle" onclick="showInstructions()" alt="information"></i></li>
+                    <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-medal leaderboard" alt="leaderboard"></i></a> </li>
+                    {% if not request.path=="/" %} {% if not session["username"] %}
+                    <li><a href="/?modal=login"><i class="fas fa-sign-in-alt log-in" alt="log in"></i></a></li>
+                    {% else %}
+                    <li><i class="fas fa-door-open log-out" onclick="showLogout()" alt="log out"></i></li>
+                    {% endif %} {% else %} {% if not session["username"] %}
+                    <li><i class="fas fa-sign-in-alt log-in" alt="log in" onclick="showLogin()"></i></li>{% else %}
+                    <li><i class="fas fa-door-open log-out" onclick="showLogout()" alt="log out"></i></li>{% endif %}{% endif %}
+
+                </ul>
+            </div>
         </nav>
     </header>
     <section>
@@ -89,13 +89,20 @@
         var logoutBox = document.getElementById("logout-container")
         var allPopUps = document.getElementsByClassName("pop-up-container")
         var instructionsBox = document.getElementById("instructions-box")
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams) {
+            console.log(urlParams)
+        }
+        else {
+            console.log("False")
+        }
 
         function modalCheckOnLoad() {
             if (loginErrorMessage.textContent == "No User By That Name Exists") {
                 loginBox.style.display = "block"
             }
         }
-        
+
         function showInstructions() {
             if (instructionsBox.style.display === "block") {
                 instructionsBox.style.display = "none";
@@ -121,21 +128,27 @@
             else {
                 loginBox.style.display = "block";
                 loginErrorMessage.textContent = ""
-
             }
         }
 
         for (i = 0; i < allPopUps.length; i++) {
-            console.log(allPopUps[i])
-            console.log(i)
             allPopUps[i].addEventListener("click", function(e) {
                 if (e.target.classList.contains("shadow-overlay") || e.target.classList.contains("close-button")) {
                     for (i = 0; i < allPopUps.length; i++) {
                         allPopUps[i].style.display = "none";
                     }
                 }
+                // http://atodorov.org/blog/2013/01/28/remove-query-string-with-javascript-and-html5/
+                var clean_uri = location.protocol + "//" + location.host + location.pathname;
+                window.history.replaceState({}, document.title, clean_uri);
             })
         }
+
+
+        if (urlParams.get('modal') == "login") {
+            showLogin()
+        }
+
 
         modalCheckOnLoad()
     </script>
