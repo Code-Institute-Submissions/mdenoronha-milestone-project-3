@@ -12,7 +12,7 @@
         </div>
     </a>
     <!--If user is currently not in a game -->
-    {% if current_qu_num == 6 or 1 not in session["visited_check"] %}
+    {% if 1 not in session["visited_check"] %}
     <a href="{{ url_for('leaderboard') }}">
         <div class="leaderboard-option">
             <p>Leaderboard</p>
@@ -21,12 +21,16 @@
     </a>
     {% else %}
     <!--If user is currently in a game-->
-    <a href="{{ url_for('questions', qu_num = current_qu_num) }}">
-        <div class="continue-game-option">
-            <p>Continue Game</p>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-    </a>
+        {% if current_qu_num == 6 %}
+        <a href="{{ url_for('end') }}">
+        {% else %}
+        <a href="{{ url_for('questions', qu_num = current_qu_num) }}">
+        {% endif %}
+            <div class="continue-game-option">
+                <p>Continue Game</p>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </a>
     {% endif %}
 </div>
 
