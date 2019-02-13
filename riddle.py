@@ -39,6 +39,7 @@ def add_user_to_leaderboard(users):
             elif user["score"] == session["score"]:
                 if user["total_time"] > session["total_time"] or user["total_time"] == None:
                     user["total_time"] = session["total_time"]
+            break
         else:
             if counter == len(users) - 1:
                 new_user = {}
@@ -255,11 +256,19 @@ def questions(qu_num):
         session["answers"].append(add_answer(current_random_question, request.form["answer"].upper()))
         
         # Iterates all possible answers for the riddle, adding 1 to the users score if one of them is correct
-        for answer in riddles[current_random_question - 1]["answer"]:
-            if request.form["answer"].upper() == answer.upper():
+        if not isinstance(riddles[current_random_question - 1]["answer"], list):
+            if request.form["answer"].upper() == riddles[current_random_question - 1]["answer"].upper():
                 if session["score"] == None:
                     session["score"] = 0
                 session["score"] += 1
+                print("correct")
+        else:
+            for answer in riddles[current_random_question - 1]["answer"]:
+                if request.form["answer"].upper() == answer.upper():
+                    if session["score"] == None:
+                        session["score"] = 0
+                    session["score"] += 1
+                    print("correct")
                 
         """
         Updates correct_answer attribute which lets question.html display a correct
