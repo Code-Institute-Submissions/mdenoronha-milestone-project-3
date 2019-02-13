@@ -16,12 +16,12 @@
     {% endif %} {% if next_qu != qu_num %}
     <div class="answer-pop-up-container">
         <div class="answer-pop-up">
-            {% if request.form["answer"].upper() == correct_answer %}
-            <h2>That's Correct!</h2>
-            <p>The Correct Answer Is: {{ correct_answer }}</p>
+            {% if correct: %}
+                <h2>That's Correct!</h2>
+                <p>The Correct Answer Is: {{ correct_answer }}</p>
             {% else %}
-            <h2>Sorry, That's Wrong</h2>
-            <p>The Correct Answer Is: {{ correct_answer }}</p>
+                <h2>Sorry, That's Wrong</h2>
+                <p>The Correct Answer Is: {{ correct_answer }}</p>
             {% endif %}
             <form action="{{ url_for('questions', qu_num = next_qu) }}">
                 <input class="form-submit" type="submit" value="NEXT QUESTION" />
