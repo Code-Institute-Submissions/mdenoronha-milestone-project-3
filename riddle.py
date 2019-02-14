@@ -23,9 +23,9 @@ def reset_game_attributes():
     return
 
 """
-Once game is complete, user's score and total time is added to leaderboard
-This function also adds a new user to user.json when they first register
+Once user registers their username, a user account is created on users.json
 """
+
 def add_user_to_users(users):
     # convert data to list if not
     if type(users) is dict:
@@ -44,6 +44,10 @@ def add_user_to_users(users):
     
     return users
 
+"""
+Once game is complete, user's score and total time is added to leaderboard
+"""
+
 def add_user_to_leaderboard(users):
     # convert data to list if not
     if type(users) is dict:
@@ -52,21 +56,17 @@ def add_user_to_leaderboard(users):
     # Checks if user's score & total time is better than their previous attempt
     for counter, user in enumerate(users):
         if session["username"] == user["username"]:
-            print("user found")
             if user["score"] == None: 
                 user["score"] = session["score"]
                 user["total_time"] = session["total_time"]
-                print("none score updated")
                 break
             else:
                 if user["score"] < session["score"]:
                     user["score"] = session["score"]
                     user["total_time"] = session["total_time"]
-                    print("lower score updated")
                 elif user["score"] == session["score"]:
                     if user["total_time"] > session["total_time"] or user["total_time"] == None:
                         user["total_time"] = session["total_time"]
-                        print("same score updated")
                 break
 
     # write list to file
@@ -282,15 +282,13 @@ def questions(qu_num):
                 if session["score"] == None:
                     session["score"] = 0
                 session["score"] += 1
-                print("correct")
         else:
             for answer in riddles[current_random_question - 1]["answer"]:
                 if request.form["answer"].upper() == answer.upper():
                     if session["score"] == None:
                         session["score"] = 0
                     session["score"] += 1
-                    print("correct")
-                
+
         """
         Updates correct_answer attribute which lets question.html display a correct
         or incorrect message depending on the user's answer
