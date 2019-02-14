@@ -166,6 +166,8 @@ The process for deployment was as follows:
 Credits
 ---------------
 * Assistance from [here](http://atodorov.org/blog/2013/01/28/remove-query-string-with-javascript-and-html5/) for removing URL parameters necessary for login modal
+* Assistance on favicon implementation with Flask from [here](https://webmasters.stackexchange.com/questions/25876/how-do-i-deploy-a-favicon-on-heroku)
+* [favicon-generator.org](https://www.favicon-generator.org/) used to create favicon
 * Riddles provided by [riddles.fyi](https://riddles.fyi) and [riddles.com](https://www.riddles.com)
 
 
