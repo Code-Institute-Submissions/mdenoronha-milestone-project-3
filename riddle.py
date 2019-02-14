@@ -30,9 +30,18 @@ def add_user_to_leaderboard(users):
     # convert data to list if not
     if type(users) is dict:
         users = [users]
+    
+    print(users)
     # Checks if user's score & total time is better than their previous attempt
     for counter, user in enumerate(users):
-        if session["username"] == user["username"]:
+        if session["username"] != user["username"]:
+            if counter == len(users) - 1:
+                new_user = {}
+                new_user["username"] = session["username"]
+                new_user["score"] = session["score"]
+                new_user["total_time"] = session["total_time"]
+                users.append(new_user)
+        else: 
             if user["score"] < session["score"]:
                 user["score"] = session["score"]
                 user["total_time"] = session["total_time"]
@@ -40,13 +49,6 @@ def add_user_to_leaderboard(users):
                 if user["total_time"] > session["total_time"] or user["total_time"] == None:
                     user["total_time"] = session["total_time"]
             break
-        else:
-            if counter == len(users) - 1:
-                new_user = {}
-                new_user["username"] = session["username"]
-                new_user["score"] = session["score"]
-                new_user["total_time"] = session["total_time"]
-                users.append(new_user)
 
     # write list to file
     with open('data/users.json', 'w+') as overwrite:
