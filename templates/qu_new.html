@@ -3,12 +3,16 @@
 <!--New Game Intro-->
 <h1 class="welcome-message">It's a New Game {{ username }}</h1>
 <div class="intro-text">
-    <p>Nullam pellentesque pretium leo eget feugiat. Cras dictum nunc pharetra magna viverra ornare. Sed id blandit mauris. Maecenas et ex tellus. Aliquam erat volutpat. Mauris feugiat dignissim sodales. Proin at massa ipsum. Nunc vitae finibus diam.
-        <br><br> Praesent ac ex eget velit mattis efficitur. Sed pulvinar metus non diam porta lobortis. In ut orci magna. Integer aliquam dolor ac odio placerat fermentum. Nunc in magna convallis, mollis nunc vitae, tempor erat. Proin ac ornare justo.
-        Fusce quis ante vitae libero rhoncus mollis ac egestas diam.</p>
+    <p><strong>Get ready to play the Riddles Game</strong>
+        <br><br> You'll be up against 5 random riddles, you have your insight and intelligence to correctly guess their answers. But think thoroughly, as you only get <strong>one shot</strong> to guess the correct answer.
+        <br><br> Don't take too long! As soon as each question is shown, a timer starts. It only stops once you've answered that question. At the end of the game, the time taken to answer each question is totalled up. The timer runs as long as the riddle isn't answered. So feel free to leave the game and come back, but remember the timer won't wait for you.
+        <br><br> Can you make the leaderboard? If you final score and total time is good enough, you'll make the prestigious Riddles Game leaderboard.
+        <br><br>
+        <strong>Good Luck!</strong>
+    </p>
 </div>
 <!--Start Game Button-->
 <form action="{{ url_for('questions', qu_num = session['current_qu_num']) }}">
-    <input class="lets-play-button"  type="submit" value="START GAME" />
+    <input class="lets-play-button" type="submit" value="START GAME" />
 </form>
- {% endblock %}
+{% endblock %}
