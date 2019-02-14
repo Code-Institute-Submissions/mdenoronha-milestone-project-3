@@ -32,7 +32,7 @@ def add_user_to_leaderboard(users):
         users = [users]
     # Checks if user's score & total time is better than their previous attempt
     for counter, user in enumerate(users):
-        if (session["username"] == user["username"]):
+        if (user["username"] == session["username"]):
             if user["score"] < session["score"]:
                 user["score"] = session["score"]
                 user["total_time"] = session["total_time"]
@@ -369,4 +369,7 @@ def leaderboard():
 # Make debug false
 # If name for test_riddle
 if __name__ == "__main__":
-    app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "8080")), debug=True)
+     app.run(host=os.environ.get('IP'),
+            port=int(os.environ.get('PORT')),
+            debug=False)
+    # app.run(host=os.getenv('IP', "0.0.0.0"), port=int(os.getenv('PORT', "8080")), debug=True)
