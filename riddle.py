@@ -33,12 +33,12 @@ def add_user_to_leaderboard(users):
     # Checks if user's score & total time is better than their previous attempt
     for counter, user in enumerate(users):
         if user["username"] == session["username"]:
-            if user["score"] < session["score"]:
-                user["score"] = session["score"]
-                user["total_time"] = session["total_time"]
-            elif user["score"] == session["score"]:
-                if user["total_time"] > session["total_time"] or user["total_time"] == None:
-                    user["total_time"] = session["total_time"]
+            # if user["score"] < session["score"]:
+            #     user["score"] = session["score"]
+            #     user["total_time"] = session["total_time"]
+            # elif user["score"] == session["score"]:
+            #     if user["total_time"] > session["total_time"] or user["total_time"] == None:
+            #         user["total_time"] = session["total_time"]
             break
         else:
             if counter == len(users) - 1:
