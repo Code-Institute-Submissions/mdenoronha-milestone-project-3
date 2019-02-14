@@ -26,22 +26,32 @@ def reset_game_attributes():
 Once game is complete, user's score and total time is added to leaderboard
 This function also adds a new user to user.json when they first register
 """
+def add_user_to_users(users):
+    # convert data to list if not
+    if type(users) is dict:
+        users = [users]
+    
+    new_user = {}
+    new_user["username"] = session["username"]
+    new_user["score"] = session["score"]
+    new_user["total_time"] = session["total_time"]
+    users.append(new_user)
+    
+    # write list to file
+    with open('data/users.json', 'w+') as overwrite:
+        json.dump(users, overwrite)
+    users = json.load(open('data/users.json'))
+    
+    return users
+
 def add_user_to_leaderboard(users):
     # convert data to list if not
     if type(users) is dict:
         users = [users]
     
-    print(users)
     # Checks if user's score & total time is better than their previous attempt
     for counter, user in enumerate(users):
-        if session["username"] != user["username"]:
-            if counter == len(users) - 1:
-                new_user = {}
-                new_user["username"] = session["username"]
-                new_user["score"] = session["score"]
-                new_user["total_time"] = session["total_time"]
-                users.append(new_user)
-        else: 
+        if session["username"] == user["username"]:
             if user["score"] < session["score"]:
                 user["score"] = session["score"]
                 user["total_time"] = session["total_time"]
@@ -133,7 +143,7 @@ def index():
                         session["score"] = None
                         session["total_time"] = None
                         users = json.load(open('data/users.json'))
-                        add_user_to_leaderboard(users)
+                        add_user_to_users(users)
     # If user has logged in or registered, they are redirected to Questions Home
     if "username" in session:
         return redirect(url_for("qu_home"))
