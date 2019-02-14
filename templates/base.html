@@ -97,10 +97,12 @@
         // If flash error message is displayed after form entry, display modal that contains 
         // the text
         function modalCheckOnLoad() {
-            if (loginErrorMessage.textContent == "No User By That Name Exists") {
-                loginBox.style.display = "block"
+                if (loginErrorMessage) {
+                    if (loginErrorMessage.textContent == "No User By That Name Exists") {
+                        loginBox.style.display = "block"
+                    }
+                }
             }
-        }
         
         // Show/hide instructions modal
         function showInstructions() {
@@ -129,7 +131,9 @@
             }
             else {
                 loginBox.style.display = "block";
+                if (loginErrorMessage) {
                 loginErrorMessage.textContent = ""
+                }
             }
         }
 
