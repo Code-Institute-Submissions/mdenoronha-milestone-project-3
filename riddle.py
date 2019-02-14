@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, redirect, render_template, request, session, url_for, flash
+from flask import Flask, redirect, render_template, request, session, url_for, flash, send_from_directory
 from operator import itemgetter
 import random
 from datetime import datetime
@@ -384,6 +384,12 @@ def leaderboard():
     title = "Riddles Game - Leaderboard"
     
     return render_template("leaderboard.html", top_users = top_users, title = title)
+    
+    
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static', 'imgs'),
+                               'favicon.ico', mimetype='image/png')
     
 if __name__ == "__main__":
      app.run(host=os.environ.get('IP'),
