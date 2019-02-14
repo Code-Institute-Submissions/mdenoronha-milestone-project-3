@@ -161,7 +161,7 @@ The process for deployment was as follows:
 * Link Github repository to Heroku with automatic deploys turned on
 * Create requirements.txt file
 * Create Procfile 
-* Update apps PORT and IP to correspond with Heroku
+* Update app's PORT and IP to correspond with Heroku
 
 Credits
 ---------------
