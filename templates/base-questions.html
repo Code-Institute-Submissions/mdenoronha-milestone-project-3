@@ -133,8 +133,6 @@
 
             // Close modal on clicking x or outside modal area
             for (i = 0; i < allPopUps.length; i++) {
-                console.log(allPopUps[i])
-                console.log(i)
                 allPopUps[i].addEventListener("click", function(e) {
                     if (e.target.classList.contains("shadow-overlay") || e.target.classList.contains("close-button")) {
                         for (i = 0; i < allPopUps.length; i++) {
