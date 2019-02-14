@@ -25,11 +25,11 @@ Features
 * Other users are not able to register the same username, giving a unique account for users to make use of
 * Usernames are saved to a user's session, allowing them leave the site and return logged in (within limitations of session cookie)
 * Users are able to log out of their account by clicking the log out icon
-* Users are able to log in to their account by clicking the log in buttom and entering their username (no password is required)
+* Users are able to log in to their account by clicking the log in button and entering their username (no password is required)
 
 *Functionality of the game*
 * Random riddles are shown to users by starting a new game (up to 5)
-* An answer form is displated allowing users to make a guess of the answer
+* An answer form is displayed allowing users to make a guess of the answer
 * Correct guesses add one to a saved score attribute assigned to the user's session, the user is made aware they guessed correctly/incorrectly
 * Correct answers are shown to the user, irrespective of their answer
 * The time taken to answer the question is recorded and added to a total_time attribute assigned to the user's session
@@ -48,7 +48,7 @@ Features
 * At any time, users can see the leaderboard. This can be done by selecting leaderboard from the navigation menu or the Leaderboard option when a game is not being played
 
 ### Features Left to Implement ###
-* Due Heroku's ephemeral filesystem, while the necessary logic is in place to add users to user.json and to update their scores after each game, this update does not persist permenantly. A further update would be to find an alternative option to update the json file.
+* Due Heroku's ephemeral filesystem, while the necessary logic is in place to add users to user.json and to update their scores after each game, this update does not persist permanently. A further update would be to find an alternative option to update the json file.
 * The app makes no use of secure user authentication. This means that users are able to log into any account using only the username. A feature to implement would be to add secure authentication with passwords.
 * Users are only able to guess an answer to a riddle once, a possible update would be to allow users multiple guessing before the riddle was marked as incorrect.
 
@@ -60,7 +60,7 @@ Technologies Used
     * random module in order to choose 5 random riddles
     * datetime module to assist in the recording of user's game time
     * json module for interaction with json files
-* As only a basic amount of Javascript was required, no Javascript frameworks or libraries were used. The small amount of Javascript required also didn't necessitate a seprate file, with Javascript written within script tags within the relevant HTML files.
+* As only a basic amount of Javascript was required, no Javascript frameworks or libraries were used. The small amount of Javascript required also didn't necessitate a separate file, with Javascript written within script tags within the relevant HTML files.
 * unittest was used to build the testing framework
 
 Functionality
@@ -123,7 +123,7 @@ Selecting leaderboard icon in navigation takes user to Leaderboard | Successful
 If the user has username attribute in session and has logged in, the log out icon is displayed | Successful
 If the user has no username attribute in session and has not logged in, the log in icon is displayed | Successful
 Selecting log in icon in navigation on the homepage displays login modal | Successful
-Selecting log in icon in navigation on any other pagee takes the user to the homepage and displays login modal | Successful
+Selecting log in icon in navigation on any other page takes the user to the homepage and displays login modal | Successful
 Selecting log out icon in navigation displays log out modal | Successful
 If no game is currently being played, the Leaderboard option is displayed | Successful
 If a game is currently being played, the Leaderboard option is displayed | Successful
@@ -131,7 +131,7 @@ User Tests |
 Entering a username on the register form that is already in users.json displays an error message | Successful
 Entering a username on the log in form that is not in users.json displays an error message | Successful
 Entering a new username on the register form adds the user to user.json | Failed
-Due to Heroku ephemeral filesystem the update to the file does not exist permenantly |
+Due to Heroku ephemeral filesystem the update to the file does not exist permanently |
 Entering a new username on the register form takes the user to Questions Home and saves the username to session | Successful
 Entering a username already in users.json on the login form takes the user to Questions Home and saves the username to session | Successful
 Confirming log out on the log out modal takes the user to the homepage and removes username from session | Successful
@@ -153,7 +153,6 @@ On Questions End, the user's total time is displayed correctly | Successful
 The table features the user (if their score and total time is within the top 25) | Successful
 The table features the top 25 users by score and then by total time | Successful
 
-
 Deployment
 ---------------
 Project has been deployed to Heroku and is accessible [here](https://riddles-game.herokuapp.com/).
@@ -168,3 +167,5 @@ Credits
 ---------------
 * Assistance from [here](http://atodorov.org/blog/2013/01/28/remove-query-string-with-javascript-and-html5/) for removing URL parameters necessary for login modal
 * Riddles provided by [riddles.fyi](https://riddles.fyi) and [riddles.com](https://www.riddles.com)
+
+
