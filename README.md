@@ -4,6 +4,8 @@ A milestone project displaying capabilities in HMTL, CSS, Javascript, Python and
 The project is a riddle game where the user is shown a random selection of 5 riddles that they have to answer correctly.
 The game makes use of a leaderboard, where users are sorted into those with the higher scores and those who answered the fastest.
 
+The project can be found [here](https://riddles-game.herokuapp.com/)
+
 UX
 ---------------
 The main intended user is someone interested in riddles and wishes to play a game based on guessing riddles.
@@ -156,12 +158,24 @@ The table features the top 25 users by score and then by total time | Successful
 Deployment
 ---------------
 Project has been deployed to Heroku and is accessible [here](https://riddles-game.herokuapp.com/).
-The process for deployment was as follows: 
-* Create a new app in Heroku
-* Link Github repository to Heroku with automatic deploys turned on
-* Create requirements.txt file
-* Create Procfile 
+The process for deployment was as follows:
+
+* Clicked New to create a new repository on Github dashboard
+* Selected a repository name and clicked Create Repository
+* Within terminal, created a new repository using 'git init'
+* Added files to repository when necessary using 'git add' througout projects creation
+* Committing new changes using 'git commit'
+* Entering 'git remote add origin' with the Github URL
+* Push repository to Github
+* Create a new app in Heroku by clicking 'New' button on the dashboard
+* Choose an app name and clicked 'create app'
+* Clicked 'GitHub Connect to Github'
+* Selected the project's repository
+* Turned on automatic deploys automatic deploys
+* Within the terminal created requirements.txt file with dependencies
+* Create Procfile to inform app.py is to be run
 * Update app's PORT and IP to correspond with Heroku
+* Added the changes to repository, committed them and pushed them Github
 
 Credits
 ---------------
